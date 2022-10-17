@@ -17,6 +17,8 @@ namespace PayRollSampleApplication.Common
             CreateMap<AddOrUpdateEmployeeDto, Employee>().ReverseMap();
             CreateMap<PaySlipDetailDto, PaySlipDetail>().ReverseMap();
             CreateMap<PaySlipDetail, AllPaySlipDto>().ReverseMap();
+            CreateMap<JobPosition, JobPositionsDto>().ReverseMap();
+            CreateMap<Department, DepartmentDto>().ReverseMap();
         }
     }
 }
