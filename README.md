@@ -4,3 +4,4 @@ and register his information along with his documents, dependents and salary det
 - applyied identity server with jwt authentication 
 - using angular for front end
 -using code first
+- use fluent validation 
