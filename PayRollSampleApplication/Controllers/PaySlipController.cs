@@ -103,6 +103,7 @@ namespace PayRollSampleApplication.Controllers
                                     .ToListAsync();
 
                 if (employees == null) return BadRequest("no working employee found");
+                if (allPaySlipDto.Month == 0 || allPaySlipDto.Year == 0) return BadRequest("month / year should not be zero");
 
                 List<PaySlipDetail> paySlipList = new List<PaySlipDetail>();
 

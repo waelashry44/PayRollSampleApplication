@@ -8,16 +8,11 @@ namespace PayRollSampleApplication.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<IdentityRole> entity)
         {
-            entity.HasData(
+            entity.HasData(              
                 new IdentityRole
                 {
-                    Name = "Viewer",
-                    NormalizedName = "VIEWER"
-                },
-                new IdentityRole
-                {
-                    Name = "Administrator",
-                    NormalizedName = "ADMINISTRATOR"
+                    Name = "HrManager",
+                    NormalizedName = "HRMANAGER"
                 },
                  new IdentityRole
                  {

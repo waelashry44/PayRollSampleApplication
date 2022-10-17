@@ -37,8 +37,7 @@ namespace PayRollSampleApplication.Controllers
                 var errors = result.Errors.Select(e => e.Description);
                 return BadRequest(new RegistrationResponseDto { Errors = errors });
             }
-            await _userManager.AddToRolesAsync(user, new[] { "Administrator", "PayRollManager" });
-
+            await _userManager.AddToRolesAsync(user, new[] { "HrManager", "PayRollManager" });
             return StatusCode(201);
         }
 
@@ -60,7 +59,7 @@ namespace PayRollSampleApplication.Controllers
         }
 
         [HttpGet("Privacy")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "HrManager,PayRollManager")]
         public IActionResult Privacy()
         {
             var claims = User.Claims

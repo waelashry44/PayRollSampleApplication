@@ -15,7 +15,8 @@ namespace PayRollSampleApplication.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Administrator")]
+    [Authorize]
+
     public class EmployeeController : ControllerBase
     {
         private readonly IRepository<Employee, int> _employeeRepository;
@@ -34,8 +35,8 @@ namespace PayRollSampleApplication.Controllers
             _validator = validator;
         }
 
+
         [HttpGet]
-        [Authorize(Roles = "Viewer,Administrator")]
         public async Task<IActionResult> Get()
         {
             try
@@ -54,7 +55,6 @@ namespace PayRollSampleApplication.Controllers
         }
 
         [HttpGet("/{id}")]
-        [Authorize(Roles = "Viewer,Administrator")]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -76,6 +76,8 @@ namespace PayRollSampleApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "HrManager")]
+
         public async Task<IActionResult> Post([FromBody] AddOrUpdateEmployeeDto employeeDto)
         {
             ValidationResult result = await _validator.ValidateAsync(employeeDto);
@@ -111,6 +113,7 @@ namespace PayRollSampleApplication.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "HrManager")]
         public async Task<IActionResult> Put([FromBody] AddOrUpdateEmployeeDto employeeDto)
         {
             ValidationResult result = await _validator.ValidateAsync(employeeDto);
@@ -147,6 +150,7 @@ namespace PayRollSampleApplication.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "HrManager")]
         public async Task<IActionResult> Delete(int id)
         {
             try
