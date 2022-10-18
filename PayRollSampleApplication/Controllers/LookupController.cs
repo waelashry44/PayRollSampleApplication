@@ -40,6 +40,22 @@ namespace PayRollSampleApplication.Controllers
             }
         }
 
+        [HttpGet("GetPositions")]
+        public async Task<IActionResult> GetPositions()
+        {
+            try
+            {
+                var positions = await _context.JobPositions.ToListAsync();
+                var jobPositions = _mapper.Map<IEnumerable<JobPositionsDto>>(positions);
+
+                return Ok(jobPositions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("GetPositionByDeptId")]
         public async Task<IActionResult> GetPositionByDepartmentId(int departmentId)
         {

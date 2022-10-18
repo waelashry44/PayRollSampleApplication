@@ -186,7 +186,7 @@ namespace PayRollSampleApplication.Controllers
             if (joinDate is not null && endDate is not null)
                 return (int)Enums.JobStatus.NotWorking;
 
-            if (joinDate!.Value.Date >= DateTime.Now.Date)
+            if (joinDate!.Value.Date >= DateTime.Now.Date || joinDate!.Value.Date < DateTime.Now.Date)
                 return (int)Enums.JobStatus.Started;
 
             return 0;
