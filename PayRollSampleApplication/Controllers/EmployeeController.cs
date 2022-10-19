@@ -9,7 +9,8 @@ using PayRollSampleApplication.Contracts;
 using PayRollSampleApplication.Data;
 using PayRollSampleApplication.Entities.DTOS;
 using PayRollSampleApplication.Entities.Models;
-
+using System.Security;
+using System.Security.Permissions;
 
 namespace PayRollSampleApplication.Controllers
 {
@@ -200,7 +201,9 @@ namespace PayRollSampleApplication.Controllers
                 byte[] bytes = Convert.FromBase64String(file.File);
                 string filePath = $"{rootPath}/{file.FileName}.{file.FileType}";
                 file.FilePath = filePath;
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                System.IO.File.SetAttributes(filePath, FileAttributes.Normal);
+            
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
                 {
                     fileStream.Write(bytes, 0, bytes.Length);
                 }

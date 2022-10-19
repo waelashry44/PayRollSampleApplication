@@ -74,14 +74,15 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseStaticFiles();
+
+app.UseCors("CorsPolicy");
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseStaticFiles(new StaticFileOptions()
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources/Images")),
     RequestPath = new PathString("/Resources/Images")
 });
-app.UseCors("CorsPolicy");
-app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
 app.MapControllers();
 app.Run();
