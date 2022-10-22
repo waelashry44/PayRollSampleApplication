@@ -10,7 +10,9 @@ using PayRollSampleApplication.Data;
 using PayRollSampleApplication.Entities.DTOS;
 using PayRollSampleApplication.Entities.Models;
 using System.Security;
+using System.Security.AccessControl;
 using System.Security.Permissions;
+using System.Security.Principal;
 
 namespace PayRollSampleApplication.Controllers
 {
@@ -45,8 +47,16 @@ namespace PayRollSampleApplication.Controllers
                 var employees = await  _context.Employees.AsQueryable()
                                      .Include(c => c.EmployeeAttachments)
                                      .Include(c => c.SalaryDetails)
+                                     .Include(c => c.SalaryDetails)
                                      .Include(c => c.Dependents).ToListAsync();
                 var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+                var departments = await _context.Departments.ToListAsync();
+                var positions = await _context.JobPositions.ToListAsync();
+                foreach (var item in employeesDto)
+                {
+                    item.DepartmentName = departments.FirstOrDefault(x => x.Id == item.DepartmentId)?.Name;
+                    item.PositionName = positions.FirstOrDefault(x => x.Id == item.JobPositionId)?.Name;
+                }
                 return Ok(employeesDto);
             }
             catch (Exception ex)
@@ -201,8 +211,11 @@ namespace PayRollSampleApplication.Controllers
                 byte[] bytes = Convert.FromBase64String(file.File);
                 string filePath = $"{rootPath}/{file.FileName}.{file.FileType}";
                 file.FilePath = filePath;
-                System.IO.File.SetAttributes(filePath, FileAttributes.Normal);
-            
+                //System.IO.File.SetAttributes(filePath, FileAttributes.Normal);
+                //DirectoryInfo dInfo = new DirectoryInfo(filePath);
+                //DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                //dInfo.SetAccessControl(dSecurity);
                 using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
                 {
                     fileStream.Write(bytes, 0, bytes.Length);
